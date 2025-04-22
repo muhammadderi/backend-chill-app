@@ -66,7 +66,7 @@ create table my_favorite (
   primary key (id_favorite),
   constraint fk_fav_movie foreign key (id_movie) references movie(id_movie),
   constraint fk_fav_series foreign key (id_series) references series(id_series),
-  constraint fk_fav_user foreign key (id_user) references users(id_user)
+  constraint fk_fav_user foreign key (id_user) references user(id_user)
 )engine=innodb;
 
 create table orders (
@@ -79,6 +79,6 @@ create table orders (
   primary key (id_order),
   constraint fk_order_packet foreign key (id_packet) references packet(id_packet),
   constraint fk_order_payment foreign key (id_payment) references payment(id_payment),
-  constraint fk_order_user foreign key (id_user) references users(id_user)
+  constraint fk_order_user foreign key (id_user) references user(id_user)
 )engine=innodb;
 
