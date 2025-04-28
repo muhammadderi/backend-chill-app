@@ -1,12 +1,20 @@
 import express from "express";
 import movieRoutes from "./routes/movieRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import loginRoutes from "./routes/loginRoutes.js";
+import courseRoutes from "./routes/courseRoutes.js";
+import emailRoutes from "./routes/emailRoutes.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
 app.use(movieRoutes);
 app.use(authRoutes);
+app.use(loginRoutes);
+app.use(courseRoutes);
+app.use(emailRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
