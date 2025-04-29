@@ -8,30 +8,31 @@ export async function registerUser(
   fullname,
   username,
   email,
-  password
+  password,
+  res
 ) {
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const token = uuid();
-  const [result] = await pool.query(
-    `insert into user (user_role, fullname, username, email, password, verification_token) values (?, ?, ?, ?, ?, ?)`,
-    [user_role, fullname, username, email, hashedPassword, token]
-  );
-
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const token = uuid();
+
+    const [result] = await pool.query(
+      `INSERT INTO user (user_role, fullname, username, email, password, verification_token) VALUES (?, ?, ?, ?, ?, ?)`,
+      [user_role, fullname, username, email, hashedPassword, token]
+    );
+
     const emailContent = `
-    <h1>Welcome to EduCourse</h1>
-    <p>Click the link below to verify your email:</p>
-    <a href="http://localhost:8000/verify-email?token=${token}">Verify Email</a>
-  `;
+      <h1>Welcome to EduCourse</h1>
+      <p>Click the link below to verify your email:</p>
+      <a href="http://localhost:8000/verifikasi-email?token=${token}">Verify Email</a>
+    `;
 
     await sendEmail(email, "Verify Your Email", emailContent);
-    res.status(201).json({
+
+    return res.status(201).json({
       message: "Register Successful, please check your email to verify",
     });
-
-    return { id: result.insertId, user_role, fullname, username, email, token };
   } catch (error) {
-    console.log("Error register", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Error during registration:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }

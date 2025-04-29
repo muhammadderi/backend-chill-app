@@ -4,6 +4,7 @@ import authRoutes from "./routes/authRoutes.js";
 import loginRoutes from "./routes/loginRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(authRoutes);
 app.use(loginRoutes);
 app.use(courseRoutes);
 app.use(emailRoutes);
+app.use(uploadRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
